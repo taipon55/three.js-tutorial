@@ -1,29 +1,35 @@
-// シーン
+let scene, camera, renderer, cube;
+function init() {
+  // シーン
 
-const scene = new THREE.Scene();
+  scene = new THREE.Scene();
 
-// カメラ
-const camera = new THREE.PerspectiveCamera(
-  45,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+  // カメラ
+  camera = new THREE.PerspectiveCamera(
+    65,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
 
-// レンダラー
-const renderer = new THREE.WebGLRenderer();
+  // レンダラー
+  renderer = new THREE.WebGLRenderer({ antialias: true });
 
-renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight);
 
-document.body.appendChild(renderer.domElement);
+  document.body.appendChild(renderer.domElement);
 
-// ボックスのサイズ決定、メッシュ、追加
-const geometry = new THREE.BoxGeometry(2, 2, 2);
-const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+  // ボックスのサイズ決定、メッシュ、追加
+  const geometry = new THREE.BoxGeometry(2, 2, 2);
+  // const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 
-camera.position.z = 5;
+  const texture = new THREE.TextureLoader().load("./textures/water.jpg");
+  const material = new THREE.MeshBasicMaterial({ map: texture });
+  cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  camera.position.z = 5;
+}
 
 // アニメーション制御
 function animate() {
@@ -43,5 +49,5 @@ function onWindowResize() {
 }
 
 window.addEventListener("resize", onWindowResize);
-
+init();
 animate();
